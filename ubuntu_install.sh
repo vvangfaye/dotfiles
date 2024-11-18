@@ -107,13 +107,13 @@ else
     echo "Locale zh_CN.UTF-8 already exists."
 fi
 
-# Install Solarized color scheme for Vim
-if [ ! -f "$HOME/.vim/colors/solarized.vim" ]; then
-    echo "Installing Solarized color scheme for Vim..."
+# Install Solarized8 color scheme for Vim
+if [ ! -f "$HOME/.vim/colors/solarized8.vim" ]; then
+    echo "Installing Solarized8 color scheme for Vim..."
     mkdir -p "$HOME/.vim/colors"
-    git clone https://github.com/altercation/vim-colors-solarized.git /tmp/vim-colors-solarized
-    cp /tmp/vim-colors-solarized/colors/solarized.vim "$HOME/.vim/colors/"
-    rm -rf /tmp/vim-colors-solarized
+    git clone https://github.com/lifepillar/vim-solarized8 /tmp/vim-colors-solarized8
+    cp /tmp/vim-colors-solarized8/colors/solarized8.vim "$HOME/.vim/colors/"
+    rm -rf /tmp/vim-colors-solarized8
     echo "Solarized color scheme installed."
 else
     echo "Solarized color scheme is already installed."

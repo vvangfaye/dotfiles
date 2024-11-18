@@ -6,11 +6,11 @@ set shiftwidth=4    " 自动缩进的宽度为 4 个空格
 set expandtab       " 按 Tab 键时插入空格，而不是 Tab 字符
 "显示相对行号
 " set relativenumber
-syntax on   "开启语法高亮"
-" 设置配色方案"
-colorscheme solarized
-let g:solarized_termcolors=256  "solarized主题设置在终端下的设置"
-set background=dark     "设置背景色"
+
+set termguicolors
+syntax enable
+set background=dark  " 选择 Solarized 的深色主题
+colorscheme solarized8
 
 set showmatch   "显示匹配的括号"
 set scrolloff=5     "距离顶部和底部5行"
@@ -31,3 +31,4 @@ Plug 'chun-yang/auto-pairs'
 Plug 'vim-airline/vim-airline'
 call plug#end()
 
+set mouse= "禁用鼠标
