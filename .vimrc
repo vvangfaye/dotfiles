@@ -29,7 +29,23 @@ call plug#begin()
 Plug 'chun-yang/auto-pairs'
 Plug 'vim-airline/vim-airline'
 Plug 'arzg/vim-colors-xcode'
+" easy motion
+Plug 'easymotion/vim-easymotion'
+" lsp
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 set mouse= "禁用鼠标
 colorscheme xcode
+let g:airline_theme='xcode'
+
+" 设置Leader键为空格键
+let mapleader = " "
+" 设置快捷键
+" 保存文件
+nnoremap <leader>w :w<CR>
+" 保存并退出
+nnoremap <leader>q :wq<CR>
+
+" easy motion
+let g:EasyMotion_smartcase = 1
