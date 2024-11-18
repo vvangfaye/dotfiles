@@ -9,8 +9,7 @@ set expandtab       " 按 Tab 键时插入空格，而不是 Tab 字符
 
 set termguicolors
 syntax enable
-set background=dark  " 选择 Solarized 的深色主题
-colorscheme solarized8
+set background=dark
 
 set showmatch   "显示匹配的括号"
 set scrolloff=5     "距离顶部和底部5行"
@@ -29,6 +28,8 @@ set viminfo='100,<1000,s100
 call plug#begin()
 Plug 'chun-yang/auto-pairs'
 Plug 'vim-airline/vim-airline'
+Plug 'arzg/vim-colors-xcode'
 call plug#end()
 
 set mouse= "禁用鼠标
+colorscheme xcode
