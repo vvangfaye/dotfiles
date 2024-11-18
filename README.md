@@ -7,7 +7,7 @@ This repository contains my personal configuration files (dotfiles), including `
 - **Zsh Configuration**: Includes `.zshrc` with Oh My Zsh and several useful plugins.
 - **Vim Configuration**: Includes `.vimrc` managed with vim-plug for plugin management.
 - **SSH Configuration**: Includes `.ssh/config` to simplify SSH connection settings.
-- **Additional Tools**: Installs `fzf`, `eza`.
+- **Additional Tools**: Installs `fzf` 
 
 ## Installation Steps
 
@@ -30,9 +30,8 @@ This repository contains my personal configuration files (dotfiles), including `
     The script will perform the following actions:
 
     - Update package lists.
-    - Install necessary dependencies (`zsh`, `oh-my-zsh`, `fzf`, `vim` ,`eza`.).
+    - Install necessary dependencies (`zsh`, `oh-my-zsh`, `fzf`, `vim`).
     - Clone and install Oh My Zsh and various Zsh plugins.
-    - Install `eza` as a modern replacement for `ls`.
     - Install `vim-plug` for managing Vim plugins.
     - Generate the `zh_CN.UTF-8` locale if it doesn't exist.
     - Copy configuration files (`.zshrc`, `.vimrc`, `.ssh/config`) to your home directory, backing up existing files if necessary.

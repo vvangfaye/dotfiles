@@ -81,20 +81,6 @@ else
     echo "fzf-tab is already installed."
 fi
 
-# Install eza (modern replacement for 'ls')
-if ! command_exists eza; then
-    echo "Installing eza..."
-    # Install Rust if not installed
-    if ! command_exists cargo; then
-        echo "Installing Rust..."
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-        source "$HOME/.cargo/env"
-    fi
-    cargo install eza
-else
-    echo "eza is already installed."
-fi
-
 # Install Vim
 if ! command_exists vim; then
     echo "Installing Vim..."
