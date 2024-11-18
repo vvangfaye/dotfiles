@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Install script for zshrc and vimrc dependencies
+# Install script for zshrc, vimrc, .ssh/config and their dependencies
 
 set -e  # Exit immediately if a command exits with a non-zero status
 
@@ -8,6 +8,21 @@ set -e  # Exit immediately if a command exits with a non-zero status
 command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
+
+# Function to copy dotfiles with backup
+copy_dotfile() {
+    src="$1"
+    dest="$HOME/$2"
+    if [ -e "$dest" ]; then
+        echo "Backing up existing $dest to ${dest}.bak_$(date +%s)"
+        mv "$dest" "${dest}.bak_$(date +%s)"
+    fi
+    cp "$src" "$dest"
+    echo "Copied $src to $dest"
+}
+
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Update package lists
 echo "Updating package lists..."
@@ -30,11 +45,13 @@ else
     echo "oh-my-zsh is already installed."
 fi
 
-# 安装 fzf
+# Install fzf
 if [ ! -d "$HOME/.fzf" ]; then
-    echo "正在安装 fzf..."
+    echo "Installing fzf..."
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install --all
+else
+    echo "fzf is already installed."
 fi
 
 # Install zsh plugins
@@ -78,9 +95,9 @@ else
     echo "eza is already installed."
 fi
 
-# Install vim
+# Install Vim
 if ! command_exists vim; then
-    echo "Installing Vim with GUI support..."
+    echo "Installing Vim..."
     sudo apt install -y vim
 else
     echo "Vim is already installed."
@@ -104,8 +121,43 @@ else
     echo "Locale zh_CN.UTF-8 already exists."
 fi
 
+# Copy configuration files
+echo "Copying configuration files..."
+
+# Copy .zshrc
+if [ -f "${SCRIPT_DIR}/zshrc" ]; then
+    copy_dotfile "zshrc" ".zshrc"
+else
+    echo "Warning: zshrc file not found."
+fi
+
+# Copy .vimrc
+if [ -f "${SCRIPT_DIR}/vimrc" ]; then
+    copy_dotfile "vimrc" ".vimrc"
+else
+    echo "Warning: vimrc file not found."
+fi
+
+# Copy .ssh/config
+if [ -f "${SCRIPT_DIR}/.ssh/config" ]; then
+    mkdir -p "$HOME/.ssh"
+    copy_dotfile ".ssh/config" ".ssh/config"
+    chmod 600 "$HOME/.ssh/config"
+else
+    echo "Warning: .ssh/config file not found."
+fi
+
 # Install Vim plugins
 echo "Installing Vim plugins..."
 vim +PlugInstall +qall
 
 echo "Installation complete."
+
+# Optional: Change default shell to zsh
+read -p "Do you want to change the default shell to zsh? [y/N]: " change_shell
+if [[ "$change_shell" =~ ^[Yy]$ ]]; then
+    chsh -s "$(which zsh)"
+    echo "Default shell changed to zsh. Please log out and log back in for the changes to take effect."
+else
+    echo "Default shell remains unchanged."
+fi
