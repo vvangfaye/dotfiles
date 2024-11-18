@@ -26,7 +26,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Update package lists
 echo "Updating package lists..."
-sudo apt update
+sudo apt update || true
 
 # Install zsh if not installed
 if ! command_exists zsh; then
@@ -121,19 +121,31 @@ else
     echo "Locale zh_CN.UTF-8 already exists."
 fi
 
+# Install Solarized color scheme for Vim
+if [ ! -f "$HOME/.vim/colors/solarized.vim" ]; then
+    echo "Installing Solarized color scheme for Vim..."
+    mkdir -p "$HOME/.vim/colors"
+    git clone https://github.com/altercation/vim-colors-solarized.git /tmp/vim-colors-solarized
+    cp /tmp/vim-colors-solarized/colors/solarized.vim "$HOME/.vim/colors/"
+    rm -rf /tmp/vim-colors-solarized
+    echo "Solarized color scheme installed."
+else
+    echo "Solarized color scheme is already installed."
+fi
+
 # Copy configuration files
 echo "Copying configuration files..."
 
 # Copy .zshrc
-if [ -f "${SCRIPT_DIR}/zshrc" ]; then
-    copy_dotfile "zshrc" ".zshrc"
+if [ -f "${SCRIPT_DIR}/.zshrc" ]; then
+    copy_dotfile ".zshrc" ".zshrc"
 else
     echo "Warning: zshrc file not found."
 fi
 
 # Copy .vimrc
-if [ -f "${SCRIPT_DIR}/vimrc" ]; then
-    copy_dotfile "vimrc" ".vimrc"
+if [ -f "${SCRIPT_DIR}/.vimrc" ]; then
+    copy_dotfile ".vimrc" ".vimrc"
 else
     echo "Warning: vimrc file not found."
 fi

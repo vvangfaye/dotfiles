@@ -124,6 +124,18 @@ else
     echo "vim-plug is already installed."
 fi
 
+# Install Solarized color scheme for Vim
+if [ ! -f "$HOME/.vim/colors/solarized.vim" ]; then
+    echo "Installing Solarized color scheme for Vim..."
+    mkdir -p "$HOME/.vim/colors"
+    git clone https://github.com/altercation/vim-colors-solarized.git /tmp/vim-colors-solarized
+    cp /tmp/vim-colors-solarized/colors/solarized.vim "$HOME/.vim/colors/"
+    rm -rf /tmp/vim-colors-solarized
+    echo "Solarized color scheme installed."
+else
+    echo "Solarized color scheme is already installed."
+fi
+
 # Copy configuration files
 echo "Copying configuration files..."
 
