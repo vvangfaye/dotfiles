@@ -23,8 +23,8 @@ This repository contains my personal configuration files (dotfiles), including `
     Ensure the `install.sh` script has execute permissions and run it:
 
     ```bash
-    chmod +x mac_install.sh
-    ./mac_install.sh
+    chmod +x macos_install.sh
+    ./macos_install.sh
     ```
 
     The script will perform the following actions:
