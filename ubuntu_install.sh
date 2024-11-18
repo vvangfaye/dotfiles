@@ -30,12 +30,11 @@ else
     echo "oh-my-zsh is already installed."
 fi
 
-# Install fzf
-if ! command_exists fzf; then
-    echo "Installing fzf..."
-    sudo apt install -y fzf
-else
-    echo "fzf is already installed."
+# 安装 fzf
+if [ ! -d "$HOME/.fzf" ]; then
+    echo "正在安装 fzf..."
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install --all
 fi
 
 # Install zsh plugins

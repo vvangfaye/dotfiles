@@ -32,14 +32,11 @@ else
     echo "oh-my-zsh is already installed."
 fi
 
-# Install fzf
-if ! brew list fzf &>/dev/null; then
-    echo "Installing fzf..."
-    brew install fzf
-    # Install useful key bindings and fuzzy completion
-    $(brew --prefix)/opt/fzf/install --all --no-bash --no-fish
-else
-    echo "fzf is already installed."
+# 安装 fzf
+if [ ! -d "$HOME/.fzf" ]; then
+    echo "正在安装 fzf..."
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install --all
 fi
 
 # Install zsh plugins
