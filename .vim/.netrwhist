@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/home/wangyu/code/vector/cspolygon'
+let g:netrw_dirhist_5='/home/wangyu/code/vector/cspolygon/dataset'
+let g:netrw_dirhist_4='/home/wangyu/code/vector/cspolygon'
+let g:netrw_dirhist_3='/home/wangyu/code/vector/cspolygon/dataset'
+let g:netrw_dirhist_2='/home/wangyu/code/vector/cspolygon'
+let g:netrw_dirhist_1='/home/wangyu/code/vector/cspolygon/dataset'
+let g:netrw_dirhist_0='/home/wangyu/code/vector/cspolygon'
+let g:netrw_dirhist_9='/home/wangyu/code/vector/cspolygon/output'
+let g:netrw_dirhist_8='/home/wangyu/code/vector/cspolygon'
+let g:netrw_dirhist_7='/home/wangyu/code/vector'

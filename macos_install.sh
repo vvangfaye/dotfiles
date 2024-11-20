@@ -1,4 +1,4 @@
-#!/bin/bash
+set clipboard=unnamedplus#!/bin/bash
 
 # Install script for .zshrc, .vimrc, .ssh/config and their dependencies on macOS
 
@@ -9,16 +9,28 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Function to copy dotfiles with backup
-copy_dotfile() {
+# Function to copy dotfiles or directories with backup
+copy_dotfile_or_dir() {
     src="$1"
     dest="$HOME/$2"
+
+    # Check if destination exists
     if [ -e "$dest" ]; then
-        echo "Backing up existing $dest to ${dest}.bak_$(date +%s)"
-        mv "$dest" "${dest}.bak_$(date +%s)"
+        backup_suffix=".bak_$(date +%s)"
+        echo "Backing up existing $dest to ${dest}${backup_suffix}"
+        mv "$dest" "${dest}${backup_suffix}"
     fi
-    cp "$src" "$dest"
-    echo "Copied $src to $dest"
+
+    # Check if source is a directory
+    if [ -d "$src" ]; then
+        # Copy directory recursively
+        cp -r "$src" "$dest"
+        echo "Copied directory $src to $dest"
+    else
+        # Copy file
+        cp "$src" "$dest"
+        echo "Copied file $src to $dest"
+    fi
 }
 
 # Get the directory where the script is located
@@ -100,40 +112,19 @@ else
     echo "Vim is already installed."
 fi
 
-# Install vim-plug
-if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
-    echo "Installing vim-plug..."
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-else
-    echo "vim-plug is already installed."
-fi
-
-# Install Solarized8 color scheme for Vim
-if [ ! -f "$HOME/.vim/colors/solarized8.vim" ]; then
-    echo "Installing Solarized8 color scheme for Vim..."
-    mkdir -p "$HOME/.vim/colors"
-    git clone https://github.com/lifepillar/vim-solarized8 /tmp/vim-colors-solarized8
-    cp /tmp/vim-colors-solarized8/colors/solarized8.vim "$HOME/.vim/colors/"
-    rm -rf /tmp/vim-colors-solarized8
-    echo "Solarized color scheme installed."
-else
-    echo "Solarized color scheme is already installed."
-fi
-
 # Copy configuration files
 echo "Copying configuration files..."
 
 # Copy .zshrc
 if [ -f "${SCRIPT_DIR}/.zshrc" ]; then
-    copy_dotfile ".zshrc" ".zshrc"
+    copy_dotfile_or_dir ".zshrc" ".zshrc"
 else
     echo "Warning: zshrc file not found."
 fi
 
 # Copy .vimrc
 if [ -f "${SCRIPT_DIR}/.vimrc" ]; then
-    copy_dotfile ".vimrc" ".vimrc"
+    copy_dotfile_or_dir ".vimrc" ".vimrc"
 else
     echo "Warning: vimrc file not found."
 fi
@@ -141,37 +132,16 @@ fi
 # Copy .ssh/config
 if [ -f "${SCRIPT_DIR}/.ssh/config" ]; then
     mkdir -p "$HOME/.ssh"
-    copy_dotfile ".ssh/config" ".ssh/config"
+    copy_dotfile_or_dir ".ssh/config" ".ssh/config"
     chmod 600 "$HOME/.ssh/config"
 else
     echo "Warning: .ssh/config file not found."
 fi
 
-# Install Vim plugins
-echo "Installing Vim plugins..."
-vim +PlugInstall +qall
-
-echo "Installation complete."
-
-# Optional: Change default shell to zsh
-if ! command_exists zsh; then
-    echo "zsh is not installed. Skipping default shell change."
-    exit 0
-fi
-
-CURRENT_SHELL=$(basename "$SHELL")
-if [ "$CURRENT_SHELL" != "zsh" ]; then
-    read -p "Do you want to change the default shell to zsh? [y/N]: " change_shell
-    if [[ "$change_shell" =~ ^[Yy]$ ]]; then
-        # Add zsh to /etc/shells if not already there
-        if ! grep -q "$(which zsh)" /etc/shells; then
-            echo "$(which zsh)" | sudo tee -a /etc/shells
-        fi
-        chsh -s "$(which zsh)"
-        echo "Default shell changed to zsh. Please log out and log back in for the changes to take effect."
-    else
-        echo "Default shell remains unchanged."
-    fi
+# Copy .vim directory
+if [ -d "${SCRIPT_DIR}/.vim" ]; then
+    copy_dotfile_or_dir "${SCRIPT_DIR}/.vim" ".vim"
 else
-    echo "zsh is already your default shell."
+    echo "Warning: .vim directory not found."
 fi
+
